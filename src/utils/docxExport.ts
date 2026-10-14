@@ -14,6 +14,7 @@ import {
   PageOrientation,
   SectionType
 } from 'docx';
+import { getAgencyNames } from './letterhead';
 import { ExamIdentity, Question } from '../types';
 
 /**
@@ -161,7 +162,19 @@ export async function exportNaskahSoalDocx(
           spacing: { before: 0, after: 30 },
           children: [
             new TextRun({
-              text: (exam.namaInstansi || 'PEMERINTAH KABUPATEN TANGERANG\nDINAS PENDIDIKAN').toUpperCase(),
+              text: getAgencyNames(exam).namaInstansi.toUpperCase(),
+              font: 'Times New Roman',
+              size: 23, // 11.5pt
+              bold: true,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          spacing: { before: 0, after: 30 },
+          children: [
+            new TextRun({
+              text: getAgencyNames(exam).namaLembaga.toUpperCase(),
               font: 'Times New Roman',
               size: 23, // 11.5pt
               bold: true,

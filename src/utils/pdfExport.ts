@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas-pro';
 import { jsPDF } from 'jspdf';
 import { ExamIdentity, Question } from '../types';
+import { getAgencyNames } from './letterhead';
 
 /**
  * Utilitas untuk mengamankan URL gambar (termasuk SVG Data URI dengan karakter unencoded)
@@ -37,7 +38,7 @@ function renderKopHtml(exam: ExamIdentity): string {
       </div>
       <div style="flex: 1; text-align: center; padding: 0 10px;">
         <div style="font-size: 10.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2;">
-          ${exam.namaInstansi || 'PEMERINTAH KABUPATEN TANGERANG<br/>DINAS PENDIDIKAN'}
+          ${getAgencyNames(exam).namaInstansi}<br/>${getAgencyNames(exam).namaLembaga}
         </div>
         <div style="font-size: 12.5pt; font-weight: bold; text-transform: uppercase; line-height: 1.25; margin-top: 2px;">
           ${exam.namaSekolah || 'SD NEGERI KEDUNG DALAM 1'}

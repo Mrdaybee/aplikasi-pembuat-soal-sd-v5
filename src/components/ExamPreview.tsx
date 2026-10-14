@@ -11,6 +11,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { ExamIdentity, Question } from '../types';
+import { getAgencyNames } from '../utils/letterhead';
 import { exportNaskahSoalDocx, exportKisiKisiDocx, exportKunciJawabanDocx } from '../utils/docxExport';
 import { 
   exportNaskahSoalPdf, 
@@ -259,7 +260,10 @@ export const ExamPreview: React.FC<ExamPreviewProps> = ({
 
               <div className="flex-1 text-center px-4">
                 <div className="font-bold text-[12pt] uppercase tracking-wide leading-tight">
-                  {identity.namaInstansi || 'PEMERINTAH KABUPATEN TANGERANG\nDINAS PENDIDIKAN'}
+                  {getAgencyNames(identity).namaInstansi}
+                </div>
+                <div className="font-bold text-[12pt] uppercase tracking-wide leading-tight">
+                  {getAgencyNames(identity).namaLembaga}
                 </div>
                 <div className="font-bold text-[14pt] uppercase tracking-wider leading-tight text-slate-900 mt-0.5">
                   {identity.namaSekolah || 'SD NEGERI KEDUNG DALAM 1'}

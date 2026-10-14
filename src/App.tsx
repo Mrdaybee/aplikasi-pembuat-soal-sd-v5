@@ -190,7 +190,8 @@ export default function App() {
     const newDraft: ExamDraft = {
       identity: {
         examId: newId,
-        namaInstansi: 'PEMERINTAH KOTA / DINAS PENDIDIKAN',
+        namaInstansi: 'PEMERINTAH KABUPATEN TANGERANG',
+        namaLembaga: 'DINAS PENDIDIKAN',
         namaSekolah: 'SD NEGERI CONTOH 01',
         namaUjian: 'PENILAIAN SUMATIF AKHIR SEMESTER (SAS)',
         tahunAjaran: '2026/2027',

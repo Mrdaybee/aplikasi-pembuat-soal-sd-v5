@@ -5,6 +5,7 @@ export type ExamStatus = 'Baru' | 'Sedang Dikerjakan' | 'Selesai' | 'Sudah Dieks
 export interface ExamIdentity {
   examId: string;
   namaInstansi: string;
+  namaLembaga?: string;
   namaSekolah: string;
   namaUjian: string;
   tahunAjaran: string;
