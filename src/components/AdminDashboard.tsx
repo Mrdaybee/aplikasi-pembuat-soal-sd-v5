@@ -351,7 +351,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="px-5 py-3.5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
           <div>
             <h3 className="font-bold text-slate-900 text-sm sm:text-base">
-              Daftar Pembuat Soal & Lembar Ujian SDN Kedung Dalam 1
+              Daftar Pembuat Soal & Lembar Ujian
             </h3>
             <p className="text-xs text-slate-500">
               Menampilkan {filteredDrafts.length} dari {totalDrafts} berkas naskah soal guru
