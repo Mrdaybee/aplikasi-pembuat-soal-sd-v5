@@ -40,7 +40,7 @@ const compressLogo = async (file: File): Promise<string> => {
         if (dataUrl.length <= 15_000) return dataUrl;
       }
     }
-    throw new Error('Ukuran logo masih terlalu besar setelah dikompres. Pilih gambar yang lebih sederhana.');
+    throw new Error('Logo terlalu kompleks untuk batas simpan 10 KB. Pilih gambar yang lebih sederhana atau resolusi lebih kecil.');
   } finally {
     URL.revokeObjectURL(imageUrl);
   }
