@@ -384,7 +384,8 @@ export default function App() {
             ? `${activeDraft.identity.namaSekolah || 'Sekolah'} - ${activeDraft.identity.mataPelajaran || 'Ujian'}`
             : ''
         }
-        isAdminLoggedIn={isAuthenticated}
+        isAuthenticated={isAuthenticated}
+        isAdminLoggedIn={cloudSession?.user.role === 'admin'}
         onOpenAdminLogin={() => setIsAdminLoginModalOpen(true)}
         onAdminLogout={handleAdminLogout}
       />
