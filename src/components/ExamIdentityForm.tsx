@@ -7,12 +7,52 @@ interface ExamIdentityFormProps {
   onChange: (updated: Partial<ExamIdentity>) => void;
 }
 
+const compressLogo = async (file: File): Promise<string> => {
+  const imageUrl = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    image.src = imageUrl;
+    await new Promise<void>((resolve, reject) => {
+      image.onload = () => resolve();
+      image.onerror = () => reject(new Error('File logo tidak dapat dibaca.'));
+    });
+
+    for (const maxSide of [384, 256, 192, 160]) {
+      const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('Logo tidak dapat diproses di browser ini.');
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      for (const quality of [0.82, 0.68, 0.54]) {
+        const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/webp', quality));
+        if (!blob) continue;
+        // Keep the data URL below spreadsheet-cell and request-payload limits.
+        if (blob.size > 28_000) continue;
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('Logo gagal dikompres.'));
+          reader.readAsDataURL(blob);
+        });
+        if (dataUrl.length <= 40_000) return dataUrl;
+      }
+    }
+    throw new Error('Ukuran logo masih terlalu besar setelah dikompres. Pilih gambar yang lebih sederhana.');
+  } finally {
+    URL.revokeObjectURL(imageUrl);
+  }
+};
+
 export const ExamIdentityForm: React.FC<ExamIdentityFormProps> = ({ identity, onChange }) => {
   const fileInputKiriRef = useRef<HTMLInputElement>(null);
   const fileInputKananRef = useRef<HTMLInputElement>(null);
   const [logoError, setLogoError] = useState<string | null>(null);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>, position: 'kiri' | 'kanan') => {
+    const input = e.currentTarget;
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -27,16 +67,17 @@ export const ExamIdentityForm: React.FC<ExamIdentityFormProps> = ({ identity, on
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (uploadEvent) => {
-      const base64 = uploadEvent.target?.result as string;
+    void compressLogo(file).then((compressedLogo) => {
       if (position === 'kiri') {
-        onChange({ logoKiriUrl: base64 });
+        onChange({ logoKiriUrl: compressedLogo });
       } else {
-        onChange({ logoKananUrl: base64 });
+        onChange({ logoKananUrl: compressedLogo });
       }
-    };
-    reader.readAsDataURL(file);
+    }).catch((error: unknown) => {
+      setLogoError(error instanceof Error ? error.message : 'Logo gagal diproses.');
+    }).finally(() => {
+      input.value = '';
+    });
   };
 
   const removeLogo = (position: 'kiri' | 'kanan') => {
