@@ -30,14 +30,14 @@ const compressLogo = async (file: File): Promise<string> => {
         const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/webp', quality));
         if (!blob) continue;
         // Keep the data URL below spreadsheet-cell and request-payload limits.
-        if (blob.size > 28_000) continue;
+        if (blob.size > 10_000) continue;
         const dataUrl = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
           reader.onerror = () => reject(new Error('Logo gagal dikompres.'));
           reader.readAsDataURL(blob);
         });
-        if (dataUrl.length <= 40_000) return dataUrl;
+        if (dataUrl.length <= 15_000) return dataUrl;
       }
     }
     throw new Error('Ukuran logo masih terlalu besar setelah dikompres. Pilih gambar yang lebih sederhana.');
