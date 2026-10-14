@@ -24,6 +24,7 @@ interface NavbarProps {
   activeExamTitle: string;
   isAuthenticated: boolean;
   isAdminLoggedIn: boolean;
+  accountDisplayName: string;
   onOpenAdminLogin: () => void;
   onAdminLogout: () => void;
 }
@@ -38,6 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeExamTitle,
   isAuthenticated,
   isAdminLoggedIn,
+  accountDisplayName,
   onOpenAdminLogin,
   onAdminLogout,
 }) => {
@@ -112,6 +114,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                   <span>{isAdminLoggedIn ? 'Admin' : 'Guru'}</span>
                 </div>
+                <span className="hidden sm:inline max-w-36 truncate text-xs font-medium text-slate-700" title={accountDisplayName}>
+                  {accountDisplayName}
+                </span>
                 <button
                   id="btn-nav-logout"
                   onClick={onAdminLogout}

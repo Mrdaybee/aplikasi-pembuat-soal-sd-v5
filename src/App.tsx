@@ -386,6 +386,7 @@ export default function App() {
         }
         isAuthenticated={isAuthenticated}
         isAdminLoggedIn={cloudSession?.user.role === 'admin'}
+        accountDisplayName={cloudSession?.user.displayName || cloudSession?.user.username || ''}
         onOpenAdminLogin={() => setIsAdminLoginModalOpen(true)}
         onAdminLogout={handleAdminLogout}
       />
