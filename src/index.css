@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-times {
+    font-family: "Times New Roman", Times, "Tinos", serif;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}

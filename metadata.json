@@ -1,0 +1,6 @@
+{
+  "name": "Aplikasi Pembuat Soal SD",
+  "description": "Aplikasi pembuatan naskah soal ujian SD 2 kolom, kisi-kisi, dan kunci jawaban otomatis berbasis Google Apps Script dan Web App.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
