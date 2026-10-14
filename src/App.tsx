@@ -239,11 +239,6 @@ export default function App() {
 
   // Delete draft
   const handleDeleteDraft = (examId: string) => {
-    if (drafts.length <= 1) {
-      setToastMessage({ text: 'Tidak dapat menghapus semua draf. Sisakan minimal 1 draf ujian.', type: 'warning' });
-      setTimeout(() => setToastMessage(null), 3500);
-      return;
-    }
     const target = drafts.find(d => d.identity.examId === examId);
     if (target) {
       setDraftToDelete(target);
