@@ -363,7 +363,7 @@ export const ExamPreview: React.FC<ExamPreviewProps> = ({
                           <div>A. {q.opsiA}</div>
                           <div>B. {q.opsiB}</div>
                           <div>C. {q.opsiC}</div>
-                          <div>D. {q.opsiD}</div>
+                          {q.opsiD?.trim() && <div>D. {q.opsiD}</div>}
                         </div>
                       </div>
                     ))}

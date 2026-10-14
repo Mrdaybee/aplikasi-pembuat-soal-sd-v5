@@ -224,7 +224,7 @@ function prepareQuestionBlocks(questions: Question[]): QuestionBlock[] {
             <div style="margin-bottom: 1.5px;">A. ${q.opsiA || '-'}</div>
             <div style="margin-bottom: 1.5px;">B. ${q.opsiB || '-'}</div>
             <div style="margin-bottom: 1.5px;">C. ${q.opsiC || '-'}</div>
-            <div style="margin-bottom: 1.5px;">D. ${q.opsiD || '-'}</div>
+            ${q.opsiD?.trim() ? `<div style="margin-bottom: 1.5px;">D. ${q.opsiD}</div>` : ''}
           </div>
         </div>
       `;

@@ -483,11 +483,11 @@ export async function exportNaskahSoalDocx(
           spacing: { after: 15 },
           children: [new TextRun({ text: `C.  ${q.opsiC || '-'}`, font: 'Times New Roman', size: 21 })],
         }),
-        new Paragraph({
+        ...(q.opsiD?.trim() ? [new Paragraph({
           indent: { left: 220 },
           spacing: { after: 40 },
-          children: [new TextRun({ text: `D.  ${q.opsiD || '-'}`, font: 'Times New Roman', size: 21 })],
-        })
+          children: [new TextRun({ text: `D.  ${q.opsiD}`, font: 'Times New Roman', size: 21 })],
+        })] : [])
       );
     }
   }

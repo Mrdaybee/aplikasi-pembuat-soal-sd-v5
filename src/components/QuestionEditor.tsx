@@ -30,6 +30,7 @@ interface QuestionEditorProps {
 export const QuestionEditor: React.FC<QuestionEditorProps> = ({ questions, onChange }) => {
   const [filterType, setFilterType] = useState<'ALL' | QuestionType>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [enabledOptionD, setEnabledOptionD] = useState<Set<string>>(() => new Set());
   const [activeMathTarget, setActiveMathTarget] = useState<{ idx: number; field: 'pertanyaan' | 'opsiA' | 'opsiB' | 'opsiC' | 'opsiD' | 'kunciJawaban' } | null>(null);
   
   // State Pengaturan Bobot Manual Massal
@@ -770,20 +771,51 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({ questions, onCha
                           />
                         </div>
 
-                        {/* Option D */}
-                        <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center border border-slate-300">
-                            D
-                          </span>
-                          <input
-                            type="text"
-                            value={q.opsiD}
-                            onFocus={() => setActiveMathTarget({ idx: actualIdx, field: 'opsiD' })}
-                            onChange={(e) => handleUpdateField(actualIdx, 'opsiD', e.target.value)}
-                            placeholder="Teks Opsi D..."
-                            className="flex-1 text-xs px-2.5 py-1.5 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-hidden"
-                          />
-                        </div>
+                        {/* Option D is optional */}
+                        {q.opsiD?.trim() || q.kunciJawaban === 'D' || enabledOptionD.has(q.questionId) ? (
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center border border-slate-300">
+                              D
+                            </span>
+                            <input
+                              type="text"
+                              value={q.opsiD}
+                              onFocus={() => setActiveMathTarget({ idx: actualIdx, field: 'opsiD' })}
+                              onChange={(e) => handleUpdateField(actualIdx, 'opsiD', e.target.value)}
+                              placeholder="Teks Opsi D..."
+                              className="flex-1 text-xs px-2.5 py-1.5 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-hidden"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const updated = [...questions];
+                                updated[actualIdx] = {
+                                  ...q,
+                                  opsiD: '',
+                                  kunciJawaban: q.kunciJawaban === 'D' ? 'A' : q.kunciJawaban,
+                                };
+                                onChange(updated);
+                                setEnabledOptionD((current) => {
+                                  const next = new Set(current);
+                                  next.delete(q.questionId);
+                                  return next;
+                                });
+                              }}
+                              className="px-2 py-1 text-[11px] font-semibold text-slate-600 hover:text-red-700 hover:bg-red-50 rounded-md"
+                              title="Hapus opsi D"
+                            >
+                              Hapus D
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setEnabledOptionD((current) => new Set(current).add(q.questionId))}
+                            className="justify-self-start px-2.5 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-md"
+                          >
+                            + Tambah opsi D (opsional)
+                          </button>
+                        )}
                       </div>
 
                       <div className="flex flex-wrap items-center gap-4 bg-blue-50/50 p-2.5 rounded-lg border border-blue-100">
@@ -791,7 +823,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({ questions, onCha
                           <CheckCircle2 className="w-4 h-4 text-blue-700" />
                           <label className="text-xs font-bold text-slate-700">Kunci Jawaban PG * :</label>
                           <div className="inline-flex gap-1">
-                            {(['A', 'B', 'C', 'D'] as const).map((opt) => (
+                            {(['A', 'B', 'C', ...(q.opsiD?.trim() || q.kunciJawaban === 'D' ? ['D' as const] : [])] as const).map((opt) => (
                               <button
                                 key={opt}
                                 type="button"
