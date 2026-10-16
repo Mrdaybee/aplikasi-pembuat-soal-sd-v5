@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9fLZLgUbMLj61rS3Sb1ANeNuFSl_-U6skJK1G1XCbojSsPbdbNmCtTyuACotDJCvR/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYRxITdiMdOlTQxE-nSEevuoFYJQ-CtAS4zkj5ptc9BLaUMOVCP3JMb7Zxe4nkOWHK/exec'
 export default async function handler(request, response) {
   if (request.method !== 'POST') return response.status(405).json({ ok: false, error: 'Method Not Allowed' });
   try {
