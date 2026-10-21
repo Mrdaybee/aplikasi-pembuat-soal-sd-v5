@@ -154,7 +154,7 @@ function estimateBlockHeight(block: QuestionBlock, colWidth: number): number {
   const textLength = block.html.replace(/<[^>]+>/g, '').length;
   const charsPerLine = colWidth > 500 ? 80 : 38;
   const lineCount = Math.max(1, Math.ceil(textLength / charsPerLine));
-  let height = lineCount * 18;
+  let height = lineCount * 22;
 
   if (block.type === 'header') {
     height += 38;
@@ -169,7 +169,7 @@ function estimateBlockHeight(block: QuestionBlock, colWidth: number): number {
 
   // Jika opsi PG (A, B, C, D)
   if (block.html.includes('A.') && block.html.includes('B.')) {
-    height += 56;
+    height += 85;
   }
 
   return height;
@@ -207,7 +207,7 @@ function prepareQuestionBlocks(questions: Question[]): QuestionBlock[] {
     pgList.forEach(q => {
       const noTampil = currentNo++;
       const hasImage = Boolean(q.gambarUrl);
-      const approxHeight = hasImage ? 195 : 95;
+      const approxHeight = hasImage ? 230 : 115;
 
       const qHtml = `
         <div class="exam-question-item" style="margin-bottom: 7px; page-break-inside: avoid; break-inside: avoid; font-size: 9.5pt; line-height: 1.32;">
@@ -258,7 +258,7 @@ function prepareQuestionBlocks(questions: Question[]): QuestionBlock[] {
     isianList.forEach(q => {
       const noTampil = currentNo++;
       const hasImage = Boolean(q.gambarUrl);
-      const approxHeight = hasImage ? 170 : 60;
+      const approxHeight = hasImage ? 190 : 80;
 
       const qHtml = `
         <div class="exam-question-item" style="margin-bottom: 7px; page-break-inside: avoid; break-inside: avoid; font-size: 9.5pt; line-height: 1.32;">
@@ -303,7 +303,7 @@ function prepareQuestionBlocks(questions: Question[]): QuestionBlock[] {
     esaiList.forEach(q => {
       const noTampil = currentNo++;
       const hasImage = Boolean(q.gambarUrl);
-      const approxHeight = hasImage ? 180 : 70;
+      const approxHeight = hasImage ? 200 : 90;
 
       const qHtml = `
         <div class="exam-question-item" style="margin-bottom: 7px; page-break-inside: avoid; break-inside: avoid; font-size: 9.5pt; line-height: 1.32;">
@@ -346,9 +346,9 @@ export function buildNaskahPages(
 
   // Batas tinggi konten per halaman (A4: 1123px, Padding: top 36px, bottom 36px, Footer: 24px)
   // Page 1 memiliki Kop + Judul + Identitas + Petunjuk (~315px)
-  const page1MaxColHeight = 680;
+  const page1MaxColHeight = 640;
   // Page 2 dan seterusnya memiliki Running Header (~26px)
-  const pageNMaxColHeight = 990;
+  const pageNMaxColHeight = 920;
 
   // Struktur penampung halaman
   interface PageColumns {
